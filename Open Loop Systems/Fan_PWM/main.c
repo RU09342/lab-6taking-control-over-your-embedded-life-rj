@@ -1,10 +1,11 @@
-//Milestone_1- Stranger Things
-//Jessica Wozniak, Ryan Hare, and Timothy Gordon
+
+//Jessica Wozniak & Ryan Hare
+//Lab_6: Open Loop Control
 
 //Input is RBG
 #include <msp430.h> 
 
-#define OUT BIT4 //Pin 1.4 is the TB0CCR1 output pin.
+#define OUTPUT BIT4 //Pin 1.4 is the TB0CCR1 output pin.
 
 unsigned int count = 0;
 
@@ -39,28 +40,9 @@ __interrupt void USCI_A0_ISR(void)
         case USCI_UART_UCRXIFG:
             while(!(UCA0IFG&UCTXIFG));
 
-            switch (count)
-            {
-            case 0:
-                size = UCA0RXBUF;             //size of string is equal to RX BUF
-                count = count + 1;            //increment count
-                break;
-            case 1:
-                TB0CCR1 = 255-UCA0RXBUF;      //duty cycle for RED
-                UCA0TXBUF = (size - 0x01);    //TX = size - 3, send rest of HEX string onto next node
+                TB0CCR1 = 255-UCA0RXBUF;      //duty cycle for FAN
                 __no_operation();
-                count = count + 1;            //increment count
                 break;
-            default:
-                UCA0TXBUF = UCA0RXBUF;
-                __no_operation();
-                count = count + 1; //increment count
-                if(count > size -1 && UCA0RXBUF == 0x0D){
-                    count = 0;  //sets count back to 0, so node can receive another string of HEX
-                }
-                break;
-            }
-            break;
 
         case USCI_UART_UCTXIFG: break;
         case USCI_UART_UCSTTIFG: break;
@@ -68,25 +50,21 @@ __interrupt void USCI_A0_ISR(void)
 
         default:
                 break;
-
     }
 }
 
 void PinInit(void) {
     //For pin 1.4, P1DIR = 1, P1SEL0 = 1, P1SEL1 = 0.
-    P1DIR |= OUT; //Pin 1.4
-    P1SEL1 &= ~OUT;
-    P1SEL0 |= OUT;
+    P1DIR |= OUTPUT; //Pin 1.4
+    P1SEL1 &= ~OUTPUT;
+    P1SEL0 |= OUTPUT;
 }
 
 void TimerBInit(void) {
     TB0CCTL1 = OUTMOD_3; //Set OUTMOD_3 (set/reset) for CCR1
-
     //Set initial values for CCR1
     TB0CCR1 = 200;
-
     TB0CCR0 = 255-1; //Set CCR0 for a ~1kHz clock.
-
     TB0CTL = TBSSEL_2 + MC_1; //Enable Timer B0 with SMCLK and up mode.
 }
 
