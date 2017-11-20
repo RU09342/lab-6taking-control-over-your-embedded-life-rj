@@ -3,8 +3,7 @@
 //Created: 11/7/17
 //Last updated: 11/19/17
 
-
-//Corresponded with Joshua Gould and Russell Trafford
+//Collaborated with Joshua Gould and Russell Trafford
 #include <msp430.h>
 
 #define ADC12 BIT5              //ADC12 set to BIT5
