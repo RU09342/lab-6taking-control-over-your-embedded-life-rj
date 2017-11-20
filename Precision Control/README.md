@@ -1,11 +1,7 @@
 # Lab 6: Precision Control
 ### Jessica Wozniak & Ryan Hare
 ### Created: 11/1/17
-### Last updated: 11/18/17
-
-Some applications require large amounts of voltage or current, so switching techniques must be used in order to provide the desired output. 
-Other cases however require a finer control over the voltage or current going into them (some even require a control over resistance). So far you 
-have looked at PWM to control the brightness of an LED, is there a way to use this to output a specified voltage or current, or even a specific waveform?
+### Last updated: 11/20/17
 
 ## PWM Part 2
 Since you already have the code to perform PWM, then really, the software side of this part of the lab is fairly easy. You need to design a system 
@@ -13,17 +9,30 @@ which can take in a PWM duty cycle over something like UART (or you could have y
 signal on a GPIO. The interesting part comes in when I want the output of your system to be an Analog voltage. In this case, a PWM with a 50% duty cycle 
 should produce roughly Vcc/2 volts. This part of the lab should be done with the MSP430F5529 and the physical circuit should be constructed of an active 
 Low-Pass Filter.
+### Schematic
+
+### Software
+
 
 ## R2R DAC
-An digital-to-analog converter 
+The values of the resistors in a R2R Ladder DAC allow an input to be taken in and divided throught the bits accordingly. The first set of resistors 
+will form a volatge divider, making the output of that section of the R2R Vcc/2. The Vcc/2 is then send through another voltage divider, making the 
+output of that section Vcc/4, etc. One important note about R2R Ladders: BIT0 is actually the MSB (most significant bit). 
 ### Schematic
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/R2R_Ladder.PNG)
 ### Software
-On the MSP430F5529, Port 3 is the only port that has all pins (0-7) avaible for output. The following line of code initializes Port 3.
+In the code written below, essentially each bit of the R2R Ladder is being turned on or off, depending on the value being inputted by the counter.
+When 1 is sent, BIT0 is on, when 255 is sent, BIT0 - BIT7 are all on. The corresponding voltage is then outputted to the oscilliscope. For this 8-bit
+resolution DAC, each bit is equal to 0.01289V. When just BIT0 is on, the outputted voltage should be 0.01289V, whereas when all bits are on, the 
+outputted voltage should be 3.3V.
+
+
+On the MSP430F5529, Port 3 is the only port that has all pins (P3.0-P3.7) available for output. The following line of code initializes Port 3.
 ```C
  P3DIR |= BIT0 + BIT1 + BIT2 + BIT3 + BIT4 + BIT5 + BIT6 + BIT7;
 ```
-To show the proper output was being produced, the following code sets up a counter that counts up to 255 and back down again.  
+The 8 pins (P3.1 - P3.7) correspond to an 8 bit binary number. To show the DAC was working properly, the following code sets up a binary counter that 
+counts from 0 (0x00) up to 255 (0xFF) and back down to 0 again.  
 ```C
  while(1){
 
@@ -36,9 +45,11 @@ To show the proper output was being produced, the following code sets up a count
             P3OUT = i;
         }
 ```
-This forms a triangle wave.
+When the output of the circuit was recored on the oscilliscope, a triangle wave was formed.
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_Triangle.png)
-When you zoom in closely on the oscilliscope, you can see the "staircase" formed by each voltage on the output of the DAC. 
+
+
+When you zoom in closely on the oscilliscope, you can see the "staircase" formed by each of the 255 voltages on the output of the DAC. 
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_zoomed_in.png)
 
 ## Loading Effects
