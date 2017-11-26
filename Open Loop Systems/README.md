@@ -1,7 +1,7 @@
 # Lab 6: Open Loop Systems
-### Jessica Wozniak & Ryan Hare
-### Created: 11/1/17
-### Last updated: 11/20/17
+#### Jessica Wozniak & Ryan Hare
+#### Created: 11/1/17
+#### Last updated: 11/20/17
 
 ## Voltage Regulator
 
