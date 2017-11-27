@@ -17,7 +17,7 @@ Since a certain current/ voltage was needed to initially turn the fan on, we fou
 A LM35 temperature sensor was used to read the temperature of the 5V regulator. 
 
 ### Schematic 
-![Alt Text]()
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/Schematic.PNG)
 ### Hardware
 ![Alt Text]()
 
