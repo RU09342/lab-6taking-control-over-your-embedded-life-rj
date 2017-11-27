@@ -1,7 +1,7 @@
 # Lab 6: Open Loop Systems
-#### Jessica Wozniak & Ryan Hare
-#### Created: 11/1/17
-#### Last updated: 11/20/17
+* Jessica Wozniak & Ryan Hare
+* Created: 11/1/17
+* Last updated: 11/20/17
 
 ### Overview
 The open loop system will receive a desired tempC over UART and calculate the proper duty cycle to maintain that temperature. 
@@ -40,13 +40,13 @@ corresponding tempC.
 |  100         |    32   |
 
 
-![Alt Text]()
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/System_Modeling_chart.PNG)
 
 Without the ability to have a PWM under 10% it was impossible to maintain a temperature over 54 easily. So for the purpose of this lab 
 we decided to take out the first two data points. A new plot is shown below.
 
 
-![Alt Text]()
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/System_Modeling_No_over_50.PNG)
 
 
 Using the new plot shown above, the equation (y = -0.0763x + 48.61) can be used to find what duty cycle should be set for a desired temperature: 
@@ -74,13 +74,19 @@ in the UART interrupt.
 
 Although this method worked pretty well; we then decided to make the program more accurate by splitting up the equation to calculate duty cycle 
 by for a range of temperatures. Using excel, we found new equations for 
-* tempCDes <= 32                  
-* 32 < tempCDes <= 34             
-* 34 < tempCDes <= 36           
-* 36 < tempCDes <= 39        
-* 39 < tempCDes <= 43    
+* tempCDes <= 32       
+* 32 < tempCDes <= 34  
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/34%20and%2032.PNG)          
+* 34 < tempCDes <= 36   
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/36%20and%2034.PNG)      
+* 36 < tempCDes <= 39  
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/39%20and%2036.PNG)    
+* 39 < tempCDes <= 43 
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/43%20and%2039.PNG) 
 * 43 < tempCDes <= 54    
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/54%20and%2043.PNG)
 * tempCDes > 54
+![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/over%2054.PNG)
 
 The new equations were then implemented through if else statements within the UART interrupt.
 ```C 
