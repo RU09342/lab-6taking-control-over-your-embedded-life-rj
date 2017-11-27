@@ -15,10 +15,12 @@ Low-Pass Filter.
 
 
 ## R2R DAC
-The values of the resistors in a R2R Ladder DAC allow an input to be taken in and divided throught the bits accordingly. The first set of resistors 
+The values of the resistors in a R2R Ladder DAC allow an input to be taken in and divided through the bits accordingly. The first set of resistors 
 will form a volatge divider, making the output of that section of the R2R Vcc/2. The Vcc/2 is then send through another voltage divider, making the 
 output of that section Vcc/4, etc. One important note about R2R Ladders: BIT0 is actually the MSB (most significant bit). 
 ### Schematic
+
+
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/R2R_Ladder.PNG)
 ### Software
 In the code written below, essentially each bit of the R2R Ladder is being turned on or off, depending on the value being inputted by the counter.
@@ -45,23 +47,26 @@ counts from 0 (0x00) up to 255 (0xFF) and back down to 0 again.
             P3OUT = i;
         }
 ```
-When the output of the circuit was recored on the oscilliscope, a triangle wave was formed.
-![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_Triangle.png)
+When the output of the circuit was recorded on the oscilliscope, a triangle wave was formed.
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_ladder_right.png)
 
 
 When you zoom in closely on the oscilliscope, you can see the "staircase" formed by each of the 255 voltages on the output of the DAC. 
-![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_zoomed_in.png)
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/r2r_ladder_zoomed_2.png)
+
+
+FFT
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/fft_r2r.png)
+
 
 ## Loading Effects
-Obviously you are going to be making this type of circuitry to drive something. This introduces the idea of loading effect, wherein your circuit 
-will perform differently based on what is going to be attached to it. For each of these implementations, try placing a variety of resistors from 
-100 ohms up to see what happens to your output signal and comment on what is happening.
 
-## Deliverables
-Along with what was asked in each of the parts above, for each implementation, you need to generate at least one triangle wave from your microntroller. 
-This can be done by simply incrementing and decrementing values that are being sent to your circuit. You need to measure the output of each one of these 
-along with taking the FFT on the scope of each one. The span on the FFT will need to go from 1kHz to about 50kHz if possible. You then need to compare 
-the integrity of each signal by analyzing the difference in frequency components.
 
 ## Bill of Materials
 Materials    | Quantity | Price per unit |
