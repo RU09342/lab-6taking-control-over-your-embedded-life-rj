@@ -15,9 +15,12 @@ There are upsides and downsides to using a relay as a high power switch. The ups
 However, the relay has downsides too. A lot of relays, including the one used above, require more than 3.3 volts to switch. This is why a transistor was used in the circuit above. Furthermore, the relay also requires a constant current to remain "on". It may be undesirable to have the processor supplying a constant current, even a small one. Finally, the relay is a mechanical device. It takes a small amount of time to switch. Through testing, it was found that the MAD-S-112-C relay is able to switch at a max rate of around 90Hz.
 
 ### MOSFET Switching
+Another type of switch that can be used with the microprocessor for high-power applications is a MOSFET switch. The MOSFET switch is connected to the microprocessor in such a way that the chosen output pin on the microprocessor enables or disables the MOSFET, enabling or disabling an external (usually high-power) output.
 
+There are two different MOSFET switching circuits that can work. The first one, shown below, is a High Side Switch. The High Side Switch uses a PMOS between the voltage supply and the load. This switch is useful for when the circuit that is being switched runs off of the same power supply as the microcontroller. For this configuration, it would be bad to have the supply voltage be too high, as it could damage the microcontroller. The High Side Switch will also be "off" when the microcontroller outputs 1 or high and "on" when the microcontroller outputs 0 or low.
+![HighSideSwitch]()
+Then there is the Low Side Switch, shown below. The Low Side Switch uses an NMOS between the load and ground. This one will be "on" when the microcontroller is outputting a 1 or a high, and "off" when outputting a 0 or low.
+![LowSideSwitch]()
+Like the relay, the MOSFET switch has upsides and downsides. The major upsides of using a MOSFET switch is that it requires barely any current from the output pin in order to switch the MOSFET. This is in contrast to the relay, which uses a somewhat large constant current in comparison.
 
-The MOSFET switch is a very simple circuit which can be used in a multitude of applications. One of the most important features of the MOSFET Switch is 
-the near zero current it takes to switch the MOSFET from an on to an off state. There are two main architectures, low-side and high-side switch, each 
-requiring a different type of MOSFET. Using the MSP430G2553, drive a power resistor with +12V in the same fashion as the relay. Obtain an MSP430G2553 
-voltage output along with the voltage through the power resistor. Try to figure out the switching speed limitations of the MOSFET experimentally.
+The downsides of the MOSFET switch is that the relay is much better suited for very high current applications in comparison. Furthermore, the High Side Switch can only be used when the supply voltage of the circuit is the same as the microcontroller's supply voltage.
