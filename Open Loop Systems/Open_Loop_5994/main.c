@@ -21,8 +21,10 @@ void PinInit(void);
 
 unsigned volatile int in = 0;
 volatile float tempC = 0;
+volatile float tempCDes = 0;
 volatile float tempF = 0;
 volatile float voltage = 0;
+int PWM = 0;
 
 int main(void)
 {
@@ -44,11 +46,7 @@ int main(void)
     while (!(REFCTL0 & REFGENRDY));          // Wait for reference generator
     __enable_interrupt();                    //Enable interrupts.
 
-    while (1)
-    {
-
-        __bis_SR_register(LPM0 + GIE); // Enter LPM0, interrupts enabled
-        __no_operation();              // For debugger
+    while (1){
     }
 }
 //ADC ISR
@@ -61,9 +59,40 @@ __interrupt void USCI_A0_ISR(void)
     case USCI_UART_UCRXIFG:
         while (!(UCA0IFG&UCTXIFG));     //Is TX ready?
 
-        TB0CCR1 = 255 - UCA0RXBUF;      //duty cycle of FAN
-        __no_operation();
+        tempCDes  = UCA0RXBUF;             // send RX to tempCDes
+
+        if (tempCDes <= 32)
+        {
+            PWM = 0xFF;
+        }
+        else if (tempCDes > 32 && tempCDes <=34)
+        {
+            PWM = ((tempCDes-36.87)/-0.0917)
+        }
+        else if (tempCDes > 34 && tempCDes <=36)
+        {
+            PWM = ((tempCDes-48.24)/-0.08)
+        else if (tempCDes > 36 && tempCDes <=39)
+        {
+            PWM = ((tempCDes-42.03)/-0.0394)
+        }
+        else if (tempCDes > 39 && tempCDes <=43)
+        {
+            PWM = ((tempCDes-50.85)/-0.1538)
+        }
+        else if (tempCDes > 43 && tempCDes <=54)
+        {
+            PWM = ((tempCDes-57.90)/-0.2759)
+        }
+        else if (tempCDes > 54)
+        {
+            PWM = 25;
+        }
+
+        TB0CCR1 = PWM;
+
         break;
+
 
     case USCI_UART_UCTXIFG: break;
     case USCI_UART_UCSTTIFG: break;
@@ -85,8 +114,8 @@ void PinInit(void)
 void TimerBInit(void)
 {
     TB0CCTL1 = OUTMOD_3;      //set/reset mode
-    TB0CCR1 = 200;            //Set initial CCR1
-    TB0CCR0 = 255 - 1;        //Set CCR0 for a ~1kHz clock.
+    TB0CCR1 = 255;            //Set initial CCR1
+    TB0CCR0 = 256 - 1;        //Set CCR0 for a ~1kHz clock.
     TB0CTL = TBSSEL_2 + MC_1; //Enable Timer B0 with SMCLK and up mode.
 }
 
@@ -147,7 +176,7 @@ __interrupt void ADC12ISR(void)
     in = ADC12MEM0;
     voltage = in * 0.00029;           //converts ADC to voltage
     tempC = voltage / 0.01;           //converts voltage to Temp C
-    tempF = ((9 * tempC) / 5) + 32;   //Temp C to Temp F
+ //   tempF = ((9 * tempC) / 5) + 32;   //Temp C to Temp F
     while (!(UCA0IFG&UCTXIFG));
-    UCA0TXBUF = tempF;                //send tempF to TX
+    UCA0TXBUF = tempC;                //send tempF to TX
 }
