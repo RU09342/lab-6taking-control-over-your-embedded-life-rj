@@ -135,6 +135,7 @@ void PinInit(void) {
 }
 
 void TimerBInit(void) {
+<<<<<<< HEAD
     TB0CCTL1 = OUTMOD_3; //Set OUTMOD_3 (set/reset) for CCR1, CCR2, CCR3
 
     //Set initial values for CCR1, CCR2, CCR3
@@ -142,6 +143,12 @@ void TimerBInit(void) {
 
     TB0CCR0 = 255-1; //Set CCR0 for a ~1kHz clock.
 
+=======
+    TB0CCTL1 = OUTMOD_3; //Set OUTMOD_3 (set/reset) for CCR1
+    //Set initial values for CCR1
+    TB0CCR1 = 255;
+    TB0CCR0 = 200; //Set CCR0 for a ~1kHz clock.
+>>>>>>> 9820f253bbf2612044c988aeab6c70103e898f2b
     TB0CTL = TBSSEL_2 + MC_1; //Enable Timer B0 with SMCLK and up mode.
 }
 void UARTInit(void){
