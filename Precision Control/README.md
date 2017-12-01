@@ -6,15 +6,31 @@
 ## PWM Part 2
 
 
-### Schematic0
+### Schematic
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/Schematic_LPF.PNG)
 
 ### Hardware
 
 ![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/20171201_174819.jpg)
+
+The circuit for this PWM features a low pass filter. This low pass filter works with the varied duty cycle of the PWM signal to convert the digital signal to an analog signal.
+Once the signal has been converted to analog, it will be approximately a sinusoidal function. As the maximum duty cycle is decreased, the magnitude of the analog signal will decrease.
 ### Software
+The software features a PWM signal with a duty cycle that repeatedly varies between 0% and 100%. The for loops that perform this function are shown below.
+```C
+  while(1){
 
-
+      for (i = 0; i < 255; i ++)
+      {
+          TA0CCR1= i;
+      }
+      for (i = 255; i > 0 ; i --)
+      {
+          TA0CCR1 = i;
+      }
+  }
+```
+This function works with the low pass filter to generate the analog sinusoidal signal that the circuit outputs.
 ### Loading Effects PWM2
 
 ## R2R DAC
