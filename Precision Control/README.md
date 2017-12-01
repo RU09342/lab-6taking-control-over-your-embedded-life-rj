@@ -4,16 +4,16 @@
 * Last updated: 11/20/17
 
 ## PWM Part 2
-Since you already have the code to perform PWM, then really, the software side of this part of the lab is fairly easy. You need to design a system 
-which can take in a PWM duty cycle over something like UART (or you could have your system read in the position of a potentiometer), and produce that 
-signal on a GPIO. The interesting part comes in when I want the output of your system to be an Analog voltage. In this case, a PWM with a 50% duty cycle 
-should produce roughly Vcc/2 volts. This part of the lab should be done with the MSP430F5529 and the physical circuit should be constructed of an active 
-Low-Pass Filter.
 
 
-### Schematic
+### Schematic0
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/Schematic_LPF.PNG)
 
+### Hardware
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/20171201_174819.jpg)
 ### Software
+
 
 ### Loading Effects PWM2
 
