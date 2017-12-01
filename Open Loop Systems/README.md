@@ -77,16 +77,28 @@ Although this method worked pretty well; we then decided to make the program mor
 by for a range of temperatures. Using excel, we found new equations for 
 * tempSet <= 32       
 * 32 < tempSet <= 34
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/34%20and%2032.PNG)          
 * 34 < tempSet <= 36
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/36%20and%2034.PNG)      
 * 36 < tempSet <= 39
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/39%20and%2036.PNG)    
 * 39 < tempSet <= 43
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/43%20and%2039.PNG) 
 * 43 < tempSet <= 54
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/54%20and%2043.PNG)
 * tempSet > 54
+
+
 ![Alt Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/over%2054.PNG)
 
 The new equations were then implemented through if else statements within the UART interrupt.
