@@ -81,14 +81,24 @@ FFT
 After trying various resistor sizes as a load on the R2R ladder, it seems that when the load is bigger, it has less of an effect on the circuit,
 whereas when the load is small, there is a larger effect on the circuit. 
 * 100
-The first load that was tested was a 100 ohm resistor. As seen below, the voltage dropped almost ____. As stated above, the voltage was at 3.3V,
-the voltage shown below is ___V. 
+The first load that was tested was a 100 ohm resistor. As stated above, the voltage was at 3.3V with no load, the voltage shown below is 170mV. 
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/100%20ohm.png)
+
 * 5k
-Next to be tested was a 5k resistor. This 
-* 50k
-Although the effect on the cicuit is not as drastic as the previous loads, there is still a change in volatge compared to the original.
+Next to be tested was a 5k resistor. The voltage was at 2.21V. Even though the effect on the cicuit is not as drastic as the previous load, there is still a 
+change in volatge compared to the original. 
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/5k%20ohm.png)
+
 * 100k
 As you can see, with 100k resistor as a load the voltage is almost identical to the original circuit.
+
+
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/100k%20ohm.png)
+
 ## Bill of Materials
 Materials    | Quantity | Price per unit |
 -------------|----------|----------------|
