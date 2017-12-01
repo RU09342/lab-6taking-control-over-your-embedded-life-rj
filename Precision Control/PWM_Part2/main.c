@@ -69,46 +69,67 @@
 
 
 //Jessica Wozniak & Ryan Hare
-//Lab 5 Sensors: ADC10 MSP430G2553- Temperature Sensor
+//Lab 6 Sensors: PWM Part 2: 5529
 //Created: 11/7/17
-//Last updated: 11/19/17
+//Last updated: 11/25/17
 
 #include <msp430.h>
 
-char greeting[20] = "Please Start Typing:"; // Initial Greeting you should see upon properly connecting your Launchpad
+#define RXD BIT4            //define BIT4 as RXD
+#define TXD BIT3            //defines BIT3 as TXD
+#define PWM BIT2            //defines PWM as BIT2
+
 int i = 0;
+
 int main(void)
 {
   WDTCTL = WDTPW + WDTHOLD;                 // Stop WDT
 
-  GPIOInit();
-  TimerInit();
-  UARTInit();
+  GPIOInit();        //GPIO function call
+  TimerInit();       //TIMER function call
+  UARTInit();        //UART function call
 
-  __bis_SR_register(LPM0_bits + GIE);       // Enter LPM0, interrupts enabled
-  __no_operation();                         // For debugger
+  while(1){
+
+      for (i = 0; i < 255; i ++)
+      {
+          TA0CCR1= i;
+      }
+      for (i = 255; i > 0 ; i --)
+      {
+          TA0CCR1 = i;
+      }
+  }
+}
+}
+
+#pragma vector=USCI_A0_VECTOR
+__interrupt void USCI_A0_ISR(void)
+{
+    while(!(UCA0IFG & UCTXIFG));        // is TX buffer ready?
+    UCA0TXBUF = UCA0RXBUF;              // Tx -> Rx
+    TA0CCR1 = (UCA0RXBUF);              // set pwm, CCR1 = Rx buf
 }
 void TimerInit()
 {
-TA0CCR0 = 512-1;                          // PWM Period
+TA0CCR0 = 256-1;                          // PWM Period
 TA0CCTL1 = OUTMOD_3;                      // CCR1 set/reset
 TA0CCR1 = 0;                              // CCR1 PWM duty cycle
-TA0CTL = TASSEL_1 + MC_1 + ID_3;          // ACLK, up mode, clear TAR
+TA0CTL = TASSEL_2 + MC_1 + ID_3;          // SMCLK, UPMODE, DIV 8
 }
 void GPIOInit()
 {
-    P1DIR |= BIT2+BIT3;                       // P1.2 and P1.3 output
-    P1SEL |= BIT2+BIT3;                       // P1.2 and P1.3 options select
+    P1DIR |= PWM;                       // P1.2 output
+    P1SEL |= PWM;                       // P1.2 options select
 }
 void UARTInit()
 {
-    P3SEL = BIT3+BIT4;                        // P3.4,5 = USCI_A0 TXD/RXD
-    UCA0CTL1 |= UCSWRST;                      // **Put state machine in reset**
+    P3SEL = TXD+RXD;                          // P3.3 = TXD P3.4 =RXD
+    UCA0CTL1 |= UCSWRST;                      // state machine reset
     UCA0CTL1 |= UCSSEL_2;                     // SMCLK
     UCA0BR0 = 6;                              // 1MHz 9600 (see User's Guide)
     UCA0BR1 = 0;                              // 1MHz 9600
     UCA0MCTL = UCBRS_0 + UCBRF_13 + UCOS16;   // Modln UCBRSx=0, UCBRFx=0,
-                                              // over sampling
     UCA0CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
     UCA0IE |= UCRXIE;                         // Enable USCI_A0 RX interrupt
 }
