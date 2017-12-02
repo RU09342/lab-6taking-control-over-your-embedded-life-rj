@@ -47,7 +47,7 @@ BIT0 is actually the MSB (most significant bit).
 ### Hardware 
 
 
-![Atl Text]()
+![Atl Text](https://github.com/RU09342/lab-6taking-control-over-your-embedded-life-rj/blob/master/Photos/R2R_Ladder.jpg)
 
 ### Software
 In the code written below, essentially each bit of the R2R Ladder is being turned on or off, depending on the value being inputted by the counter.
