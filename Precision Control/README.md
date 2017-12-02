@@ -31,7 +31,6 @@ The software features a PWM signal with a duty cycle that repeatedly varies betw
   }
 ```
 This function works with the low pass filter to generate the analog sinusoidal signal that the circuit outputs.
-### Loading Effects PWM2
 
 ## R2R DAC
 The values of the resistors in a R2R Ladder DAC allow an input to be taken in and divided through the bits accordingly. The resistor values used 
